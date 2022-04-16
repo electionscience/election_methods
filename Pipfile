@@ -4,10 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-black = "*"
 ipykernel = "*"
+matplotlib = "*"
+pandas = "*"
+seaborn = "*"
+celluloid = "*"
 
 [dev-packages]
+black = "*"
 
 [requires]
 python_version = "3.9"

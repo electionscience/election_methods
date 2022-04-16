@@ -15,7 +15,6 @@ seats = 4
 seated = []
 max_score = max(max(ballot.values()) for ballot in ballots)
 
-#reweight
 def reweight(ballot):
   seated_scores = [
       ballot[candidate] for candidate in ballot if candidate in seated
