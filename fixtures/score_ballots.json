@@ -1,49 +1,49 @@
 [{
-        "Red": 5,
-        "Green": 0,
-        "Yellow": 3,
-        "Blue": 5
+        "Blueberry": 5,
+        "Tomato": 0,
+        "Squash": 3,
+        "Strawberry": 5
     },
     {
-        "Red": 5,
-        "Green": 0,
-        "Yellow": 0,
-        "Blue": 4
+        "Blueberry": 5,
+        "Tomato": 0,
+        "Squash": 0,
+        "Strawberry": 4
     },
     {
-        "Red": 0,
-        "Green": 5,
-        "Yellow": 0,
-        "Blue": 1
+        "Blueberry": 0,
+        "Tomato": 5,
+        "Squash": 0,
+        "Strawberry": 1
     },
     {
-        "Red": 1,
-        "Green": 2,
-        "Yellow": 4,
-        "Blue": 3
+        "Blueberry": 1,
+        "Tomato": 2,
+        "Squash": 4,
+        "Strawberry": 3
     },
     {
-        "Red": 1,
-        "Green": 0,
-        "Yellow": 2,
-        "Blue": 0
+        "Blueberry": 1,
+        "Tomato": 0,
+        "Squash": 2,
+        "Strawberry": 0
     },
     {
-        "Red": 1,
-        "Green": 3,
-        "Yellow": 0,
-        "Blue": 1
+        "Blueberry": 1,
+        "Tomato": 3,
+        "Squash": 0,
+        "Strawberry": 1
     },
     {
-        "Red": 0,
-        "Green": 0,
-        "Yellow": 5,
-        "Blue": 0
+        "Blueberry": 0,
+        "Tomato": 0,
+        "Squash": 5,
+        "Strawberry": 0
     },
     {
-        "Red": 5,
-        "Green": 0,
-        "Yellow": 0,
-        "Blue": 5
+        "Blueberry": 5,
+        "Tomato": 0,
+        "Squash": 0,
+        "Strawberry": 5
     }
 ]
