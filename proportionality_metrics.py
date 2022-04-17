@@ -60,7 +60,7 @@ def scrutinize_outcome(ballots, winners):
     df = pd.DataFrame(ballots)
     voters, cands = df.shape
     if cands > 20:
-        print(f"Warning: this election contains {cands} candidates." + 
+        print(f"Warning: this election contains {cands} candidates. " + 
         "Some metrics may be slow to compute; consider eliminating unviable candidates from the ballots.")
 
     seats = len(winners)
