@@ -67,7 +67,7 @@ def scrutinize_outcome(ballots, winners):
 
     A = additive_utility(ballots, winners)
     A_ = exhaustive_optimal(ballots, seats, additive_utility)
-    print(f"On average, voters approved {additive_utility(ballots, winners)} winners each, " + 
+    print(f"On average, voters approved {round(A, 2)} winners each, " + 
         f"achieving {int((A/ A_)*100)}% of the best possible value.")
 
     B = maximum_utility(ballots, winners)
