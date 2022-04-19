@@ -9,6 +9,7 @@ matplotlib = "*"
 pandas = "*"
 seaborn = "*"
 celluloid = "*"
+pulp = "*"
 
 [dev-packages]
 black = "*"
