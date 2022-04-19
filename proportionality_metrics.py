@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import pulp
-from itertools import combinations
+from itertools import combinations, product
 
 def additive_utility(ballots, winners):
     df = pd.DataFrame(ballots)
@@ -16,7 +16,7 @@ def maximum_utility(ballots, winners):
 def harmonic_utility(ballots, winners):
     df = pd.DataFrame(ballots)
     numvoters = df.shape[0]
-    H = lambda x: sum([1/i for i in range(1, x+1)])
+    H = lambda x: sum(1/i for i in range(1, x+1))
     return df[winners].sum(axis=1).apply(H).sum() / numvoters
 
 def exhaustive_optimal(ballots, seats, objective):
@@ -40,14 +40,13 @@ def maximin_support(ballots, winners):
 
     s = pulp.LpVariable("s", lowBound=0)
     X = np.empty(A.shape, pulp.LpVariable)
-    for i in range(numvoters):
-        for j in range(seats):
-            lpv = pulp.LpVariable(f"x{i}{j}", lowBound=0, upBound=A[i][j])
-            X[i][j] = lpv
-    
+    for i, j in product(range(numvoters), range(seats)):
+        lpv = pulp.LpVariable(f"x{i}{j}", lowBound=0, upBound=A[i][j])
+        X[i][j] = lpv
+
     for i in range(numvoters):
         model += pulp.lpSum(X[i]) <= 1
-    
+
     Y = X.T
     for j in range(seats):
         model += pulp.lpSum(Y[j]) >= s
@@ -87,8 +86,7 @@ def scrutinize_outcome(ballots, winners):
     + f"the same candidate, which is{t} enough to destabilize a seat.")
 
     M = maximin_support(ballots, winners)
-    print(f"Assigning voters to winners in a balanced way, the least-supported winner " + 
-    f"represents {int(M*100)}% of the voters.")
+    print((f"Assigning voters to winners in a balanced way, the least-supported winner represents {int(M*100)}% of the voters."))
 
 
 if __name__=="__main__":
