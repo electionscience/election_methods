@@ -10,6 +10,7 @@ pandas = "*"
 seaborn = "*"
 celluloid = "*"
 pulp = "*"
+numpy = "*"
 
 [dev-packages]
 black = "*"
