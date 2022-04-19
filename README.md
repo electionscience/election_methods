@@ -2,20 +2,18 @@
 
 Examples of Voting Methods and Tabulation, in both python and notebook format. 
 
+Use Binder to view in an interactive format: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/electionscience/Examples/HEAD)
+
 ## Rated Methods
 
 - [Sequential Proportional Approval Voting](https://electowiki.org/wiki/Proportional_approval_voting) (SPAV)
 - [Proportional Score Voting](https://electowiki.org/wiki/Reweighted_Range_Voting) (PSV) AKA Reweighted Range Voting
 
+
 ## Ranked Methods
 
 - [Instant Runoff Voting](https://electowiki.org/wiki/Instant-runoff_voting) (IRV)
 - [Single Transferrable Vote](https://electowiki.org/wiki/Single_transferable_vote) (STV)
-
-TODO:
-
-- STAR
-- STAR-PR
 
 # Contributions
 
