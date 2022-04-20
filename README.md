@@ -1,6 +1,6 @@
 # Examples
 
-Examples of Voting Methods and Tabulation, in both python and notebook format. 
+Examples of Voting Methods and Tabulation, in both python and notebook format.
 
 Use Binder to view in an interactive format: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/electionscience/Examples/HEAD)
 
@@ -8,19 +8,19 @@ Use Binder to view in an interactive format: [![Binder](https://mybinder.org/bad
 
 - [Sequential Proportional Approval Voting](https://electowiki.org/wiki/Proportional_approval_voting) (SPAV)
 - [Proportional Score Voting](https://electowiki.org/wiki/Reweighted_Range_Voting) (PSV) AKA Reweighted Range Voting
-
+- [STAR-PR](https://electowiki.org/wiki/Allocated_Score)
 
 ## Ranked Methods
 
 - [Instant Runoff Voting](https://electowiki.org/wiki/Instant-runoff_voting) (IRV)
 - [Single Transferrable Vote](https://electowiki.org/wiki/Single_transferable_vote) (STV)
 
-# Contributions
+## Contributions
 
-Please include both a python version and a notebook version. Notebooks should have completed results so they can be viewed in Github without execution. 
+Please include both a python version and a notebook version. Notebooks should have completed results so they can be viewed in Github without execution.
 PRs are welcome.
 
-# Papers
+## Papers
 
 Some recommended reading for those wanting to contribute to the repo:
 

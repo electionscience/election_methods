@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def SPAV(ballots, k):
   df = pd.DataFrame(ballots)
   seated =  []
