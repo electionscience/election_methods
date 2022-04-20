@@ -6,7 +6,7 @@ Use Binder to view in an interactive format: [![Binder](https://mybinder.org/bad
 
 ## Rated Methods
 
-- [Sequential Proportional Approval Voting](https://electowiki.org/wiki/Proportional_approval_voting) (SPAV)
+- [Sequential Proportional Approval Voting](https://en.wikipedia.org/wiki/Sequential_proportional_approval_voting) (SPAV)
 - [Proportional Score Voting](https://electowiki.org/wiki/Reweighted_Range_Voting) (PSV) AKA Reweighted Range Voting
 
 
