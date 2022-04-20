@@ -27,3 +27,9 @@ Some recommended reading for those wanting to contribute to the repo:
 - [Proportional Representation in Elections: STV vs PAV](https://www.ifaamas.org/Proceedings/aamas2019/pdfs/p1946.pdf)
 - [Multi-Winner Voting with Approval Preferences](https://arxiv.org/pdf/2007.01795.pdf)
 - [Proportional Justiﬁed Representation](https://ojs.aaai.org/index.php/AAAI/article/download/10611/10470)
+
+## Great Examples
+
+- [VotingVisualizer](https://www.chocolatepi.net/voteapp/)
+- [Guide to a Better Ballot](https://ncase.me/ballot/)
+- [Smart Voting Simulator](https://www.howtofixtheelection.com/ballot/)
