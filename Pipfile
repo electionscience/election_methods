@@ -11,6 +11,7 @@ seaborn = "*"
 celluloid = "*"
 pulp = "*"
 numpy = "*"
+black = {extras = ["jupyter"], version = "*"}
 
 [dev-packages]
 black = "*"
