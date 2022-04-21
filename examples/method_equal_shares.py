@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 def uniform_price(weights, quota):
     """Returns the minimal amount of weight that can be taken uniformly
     from each voter such that the total amount taken is one quota."""
@@ -24,15 +25,19 @@ def MES(ballots, k):
 
     seated = []
     while len(seated) < k:
-        prices = ballots.drop(seated, axis=1).apply(lambda col: uniform_price(weights[col == 1], quota))
+        prices = ballots.drop(seated, axis=1).apply(
+            lambda col: uniform_price(weights[col == 1], quota)
+        )
         if prices.min() < float("inf"):
             w = prices.idxmin()
-        else: #default to largest remainders
+        else:  # default to largest remainders
             w = ballots.drop(seated, axis=1).mul(weights, axis=0).sum().idxmax()
 
-        weights[ballots[w] == 1] = weights[ballots[w] == 1].subtract(prices[w]).clip(0, 1)
+        weights[ballots[w] == 1] = (
+            weights[ballots[w] == 1].subtract(prices[w]).clip(0, 1)
+        )
         seated.append(w)
-        
+
     return seated
 
 
