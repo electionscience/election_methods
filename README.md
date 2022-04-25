@@ -13,8 +13,8 @@ Use Binder to view in an interactive format: [![Binder](https://mybinder.org/bad
 
 ## Ranked Methods
 
-- [Instant Runoff Voting](https://electowiki.org/wiki/Instant-runoff_voting) (IRV)
-- [Single Transferable Vote](https://electowiki.org/wiki/Single_transferable_vote) (STV)
+- [Instant Runoff Voting](https://en.wikipedia.org/wiki/Instant-runoff_voting) (IRV)
+- [Single Transferable Vote](https://en.wikipedia.org/wiki/Single_transferable_vote) (STV)
 
 ## Contributions
 
