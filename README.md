@@ -8,7 +8,6 @@ Use Binder to view in an interactive format: [![Binder](https://mybinder.org/bad
 
 - [Sequential Proportional Approval Voting](https://en.wikipedia.org/wiki/Sequential_proportional_approval_voting) (SPAV)
 - [Method of Equal Shares](https://en.wikipedia.org/wiki/Method_of_Equal_Shares) (MES)
-- [Proportional Score Voting](https://electowiki.org/wiki/Reweighted_Range_Voting) (PSV) AKA Reweighted Range Voting
 - [STAR-PR](https://electowiki.org/wiki/Allocated_Score)
 
 ## Ranked Methods
