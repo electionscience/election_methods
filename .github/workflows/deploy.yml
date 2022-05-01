@@ -34,7 +34,7 @@ jobs:
       - name: Build the JupyterLite site
         run: |
           cp README.md content
-          jupyter lite build --contents examples --contents data
+          pipenv run jupyter lite build --contents examples --contents data
       - name: Upload (dist)
         uses: actions/upload-artifact@v2
         with:
