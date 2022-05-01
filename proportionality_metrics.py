@@ -28,7 +28,6 @@ def exhaustive_optimal(ballots, seats, objective):
 
 
 def justified_representation(ballots, winners):
-    ballots = pd.DataFrame(ballots)
     numvoters = ballots.shape[0]
     return ballots.gt(ballots[winners].sum(axis=1), axis=0).sum().max() / numvoters
 
