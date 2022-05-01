@@ -16,6 +16,7 @@ names = "*"
 mypy = "*"
 jupyter-server = "*"
 jupyterlite = "*"
+jupyterlab = "*"
 
 [dev-packages]
 black = "*"
