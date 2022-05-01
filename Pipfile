@@ -12,6 +12,10 @@ celluloid = "*"
 pulp = "*"
 numpy = "*"
 black = {extras = ["jupyter"], version = "*"}
+names = "*"
+mypy = "*"
+jupyter-server = "*"
+jupyterlite = "*"
 
 [dev-packages]
 black = "*"
