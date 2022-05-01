@@ -7,13 +7,14 @@ Use Binder to view in an interactive format: [![Binder](https://mybinder.org/bad
 ## Rated Methods
 
 - [Sequential Proportional Approval Voting](https://en.wikipedia.org/wiki/Sequential_proportional_approval_voting) (SPAV)
+- [Method of Equal Shares](https://en.wikipedia.org/wiki/Method_of_Equal_Shares) (MES)
 - [Proportional Score Voting](https://electowiki.org/wiki/Reweighted_Range_Voting) (PSV) AKA Reweighted Range Voting
 - [STAR-PR](https://electowiki.org/wiki/Allocated_Score)
 
 ## Ranked Methods
 
-- [Instant Runoff Voting](https://electowiki.org/wiki/Instant-runoff_voting) (IRV)
-- [Single Transferrable Vote](https://electowiki.org/wiki/Single_transferable_vote) (STV)
+- [Instant Runoff Voting](https://en.wikipedia.org/wiki/Instant-runoff_voting) (IRV)
+- [Single Transferable Vote](https://en.wikipedia.org/wiki/Single_transferable_vote) (STV)
 
 ## Contributions
 
@@ -27,6 +28,7 @@ Some recommended reading for those wanting to contribute to the repo:
 - [Proportional Representation in Elections: STV vs PAV](https://www.ifaamas.org/Proceedings/aamas2019/pdfs/p1946.pdf)
 - [Multi-Winner Voting with Approval Preferences](https://arxiv.org/pdf/2007.01795.pdf)
 - [Proportional Justiﬁed Representation](https://ojs.aaai.org/index.php/AAAI/article/download/10611/10470)
+- [Proportionality and the Limits of Welfarism](https://arxiv.org/abs/1911.11747)
 
 ## Great Examples
 

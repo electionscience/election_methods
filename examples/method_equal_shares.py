@@ -15,7 +15,7 @@ def uniform_price(weights, quota):
             return quota / n
         quota -= w
         n -= 1
-    return sorted[-1]
+    return sorted.values[-1]
 
 
 def MES(ballots, k):
