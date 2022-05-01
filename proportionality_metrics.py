@@ -5,40 +5,35 @@ from itertools import combinations, product
 
 
 def additive_utility(ballots, winners):
-    df = pd.DataFrame(ballots)
-    numvoters = df.shape[0]
-    return df[winners].sum().sum() / numvoters
+    numvoters = ballots.shape[0]
+    return ballots[winners].sum().sum() / numvoters
 
 
 def maximum_utility(ballots, winners):
-    df = pd.DataFrame(ballots)
-    numvoters = df.shape[0]
-    return df[winners].max(axis=1).sum() / numvoters
+    numvoters = ballots.shape[0]
+    return ballots[winners].max(axis=1).sum() / numvoters
 
 
 def harmonic_utility(ballots, winners):
-    df = pd.DataFrame(ballots)
-    numvoters = df.shape[0]
+    numvoters = ballots.shape[0]
     H = lambda x: sum(1 / i for i in range(1, x + 1))
-    return df[winners].sum(axis=1).apply(H).sum() / numvoters
+    return ballots[winners].sum(axis=1).apply(H).sum() / numvoters
 
 
 def exhaustive_optimal(ballots, seats, objective):
     val = 0
-    df = pd.DataFrame(ballots)
-    for wset in combinations(df.columns, seats):
+    for wset in combinations(ballots.columns, seats):
         val = max(val, objective(ballots, list(wset)))
     return val
 
 
 def justified_representation(ballots, winners):
-    df = pd.DataFrame(ballots)
-    numvoters = df.shape[0]
-    return df.gt(df[winners].sum(axis=1), axis=0).sum().max() / numvoters
+    numvoters = ballots.shape[0]
+    return ballots.gt(ballots[winners].sum(axis=1), axis=0).sum().max() / numvoters
 
 
 def maximin_support(ballots, winners):
-    A = pd.DataFrame(ballots)[winners].to_numpy()
+    A = ballots[winners].to_numpy()
     numvoters = A.shape[0]
     seats = len(winners)
 
@@ -63,8 +58,7 @@ def maximin_support(ballots, winners):
 
 
 def scrutinize_outcome(ballots, winners):
-    df = pd.DataFrame(ballots)
-    voters, cands = df.shape
+    voters, cands = ballots.shape
     if cands > 20:
         print(
             f"Warning: this election contains {cands} candidates. "
@@ -124,4 +118,4 @@ if __name__ == "__main__":
 
     seated = ["Red", "Blue", "Yellow"]
 
-    scrutinize_outcome(ballots, seated)
+    scrutinize_outcome(pd.DataFrame(ballots), seated)
