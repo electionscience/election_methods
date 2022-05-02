@@ -2,19 +2,21 @@
 
 Examples of Voting Methods and Tabulation, in both python and notebook format.
 
-Use Binder to view in an interactive format: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/electionscience/Examples/HEAD)
+**New!** [Live demo of the repository](https://electionscience.github.io/examples/lab/index.html)
 
-## Rated Methods
+## Methods
+
+When single winner methods are equivalent to a multi winner method with one seat, the single winner method is not included for simplicity. For example, Approval Voting and Sequential Proportional Approval Voting yield the same first winner with the same methodology, so Approval Voting is not included as a separate example.
+
+### Rated Methods
 
 - [Sequential Proportional Approval Voting](https://en.wikipedia.org/wiki/Sequential_proportional_approval_voting) (SPAV)
 - [Method of Equal Shares](https://en.wikipedia.org/wiki/Method_of_Equal_Shares) (MES)
-- [Proportional Score Voting](https://electowiki.org/wiki/Reweighted_Range_Voting) (PSV) AKA Reweighted Range Voting
 - [STAR-PR](https://electowiki.org/wiki/Allocated_Score)
 
-## Ranked Methods
+### Ranked Methods
 
-- [Instant Runoff Voting](https://en.wikipedia.org/wiki/Instant-runoff_voting) (IRV)
-- [Single Transferable Vote](https://en.wikipedia.org/wiki/Single_transferable_vote) (STV)
+- [Single Transferable Vote](https://en.wikipedia.org/wiki/Single_transferable_vote) (AKA STV, Proportional IRV, Propotional RCV, Proportional Hare)
 
 ## Contributions
 
