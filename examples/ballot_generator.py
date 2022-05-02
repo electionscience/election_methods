@@ -72,7 +72,7 @@ def generate_score_ballots():
     # Compose Ballots
     candidates = ["Squash", "Potato", "Broccoli", "Blueberry", "Strawberry", "Banana"]
     # candidates = ["🥕", "🥔", "🥦", "🫐", "🍓", "🍌"]
-
+    
     ballot1 = {
         candidates[0]: 5,
         candidates[1]: 5,
@@ -131,7 +131,6 @@ def generate_score_ballots():
         + list(itertools.repeat(ballot6, 1))
     )
     return pd.DataFrame(ballots)
-
 
 def generate_ranked_ballots():
     ballots = [
