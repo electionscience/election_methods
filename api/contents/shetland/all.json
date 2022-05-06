@@ -2,9 +2,9 @@
   "content": [
     {
       "content": null,
-      "created": "2022-05-06T17:40:55.936232Z",
+      "created": "2022-05-06T17:51:23.711466Z",
       "format": null,
-      "last_modified": "2022-05-06T17:37:08.376090Z",
+      "last_modified": "2022-05-06T17:48:35.065758Z",
       "mimetype": "text/csv",
       "name": "shtl_ccl_w6_2017.csv",
       "path": "shetland/shtl_ccl_w6_2017.csv",
@@ -14,9 +14,9 @@
     },
     {
       "content": null,
-      "created": "2022-05-06T17:40:55.936232Z",
+      "created": "2022-05-06T17:51:23.711466Z",
       "format": null,
-      "last_modified": "2022-05-06T17:37:08.376090Z",
+      "last_modified": "2022-05-06T17:48:35.065758Z",
       "mimetype": "text/csv",
       "name": "shtl_ccl_w3_2017.csv",
       "path": "shetland/shtl_ccl_w3_2017.csv",
@@ -26,9 +26,9 @@
     },
     {
       "content": null,
-      "created": "2022-05-06T17:40:55.940232Z",
+      "created": "2022-05-06T17:51:23.711466Z",
       "format": null,
-      "last_modified": "2022-05-06T17:37:08.376090Z",
+      "last_modified": "2022-05-06T17:48:35.065758Z",
       "mimetype": "text/csv",
       "name": "shtl_ccl_w7_2017.csv",
       "path": "shetland/shtl_ccl_w7_2017.csv",
@@ -38,9 +38,9 @@
     },
     {
       "content": null,
-      "created": "2022-05-06T17:40:55.936232Z",
+      "created": "2022-05-06T17:51:23.711466Z",
       "format": null,
-      "last_modified": "2022-05-06T17:37:08.376090Z",
+      "last_modified": "2022-05-06T17:48:35.065758Z",
       "mimetype": "text/csv",
       "name": "shtl_ccl_w2_2017.csv",
       "path": "shetland/shtl_ccl_w2_2017.csv",
@@ -50,9 +50,9 @@
     },
     {
       "content": null,
-      "created": "2022-05-06T17:40:55.936232Z",
+      "created": "2022-05-06T17:51:23.711466Z",
       "format": null,
-      "last_modified": "2022-05-06T17:37:08.376090Z",
+      "last_modified": "2022-05-06T17:48:35.065758Z",
       "mimetype": "text/csv",
       "name": "shtl_ccl_w4_2017.csv",
       "path": "shetland/shtl_ccl_w4_2017.csv",
@@ -62,9 +62,9 @@
     },
     {
       "content": null,
-      "created": "2022-05-06T17:40:55.936232Z",
+      "created": "2022-05-06T17:51:23.707465Z",
       "format": null,
-      "last_modified": "2022-05-06T17:37:08.376090Z",
+      "last_modified": "2022-05-06T17:48:35.065758Z",
       "mimetype": "text/csv",
       "name": "shtl_ccl_w1_2017.csv",
       "path": "shetland/shtl_ccl_w1_2017.csv",
@@ -73,9 +73,9 @@
       "writable": true
     }
   ],
-  "created": "2022-05-06T17:40:55.940232Z",
+  "created": "2022-05-06T17:51:23.711466Z",
   "format": "json",
-  "last_modified": "2022-05-06T17:40:55.940232Z",
+  "last_modified": "2022-05-06T17:51:23.711466Z",
   "mimetype": null,
   "name": "shetland",
   "path": "shetland",
