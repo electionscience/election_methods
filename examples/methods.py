@@ -21,7 +21,7 @@ def SPAV(ballots, seats: int):
         weight = 1 / (1 + df[seated].sum(axis=1))
         remaining = df.drop(seated, axis=1).mul(weight, axis=0)
         seated.append(remaining.sum().idxmax())
-    return remaining, seated
+    return seated
 
 
 def uniform_price(weights, quota):
