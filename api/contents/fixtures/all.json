@@ -2,9 +2,9 @@
   "content": [
     {
       "content": null,
-      "created": "2022-05-06T17:51:23.723466Z",
+      "created": "2022-05-07T20:37:07.760679Z",
       "format": null,
-      "last_modified": "2022-05-06T17:48:35.069758Z",
+      "last_modified": "2022-05-07T20:34:15.350549Z",
       "mimetype": "application/json",
       "name": "approval_ballots.json",
       "path": "fixtures/approval_ballots.json",
@@ -14,9 +14,9 @@
     },
     {
       "content": null,
-      "created": "2022-05-06T17:51:23.723466Z",
+      "created": "2022-05-07T20:37:07.760679Z",
       "format": null,
-      "last_modified": "2022-05-06T17:48:35.069758Z",
+      "last_modified": "2022-05-07T20:34:15.350549Z",
       "mimetype": "application/json",
       "name": "score_ballots.json",
       "path": "fixtures/score_ballots.json",
@@ -25,9 +25,9 @@
       "writable": true
     }
   ],
-  "created": "2022-05-06T17:51:23.723466Z",
+  "created": "2022-05-07T20:37:07.760679Z",
   "format": "json",
-  "last_modified": "2022-05-06T17:51:23.723466Z",
+  "last_modified": "2022-05-07T20:37:07.760679Z",
   "mimetype": null,
   "name": "fixtures",
   "path": "fixtures",
