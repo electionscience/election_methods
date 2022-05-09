@@ -40,7 +40,7 @@ def uniform_price(weights, quota):
     return sorted_weights.values[-1]
 
 
-def Allocated_Score(ballots: pd.DataFrame, seats: int,  max_score: int):
+def Allocated_Score(ballots: pd.DataFrame, seats: int, max_score: int):
     """Credit to https://electowiki.org/wiki/Allocated_Score
     Allocated Score is another name for STAR-PR
 
@@ -75,7 +75,9 @@ def Allocated_Score(ballots: pd.DataFrame, seats: int,  max_score: int):
         cand_df_sort = cand_df.sort_values(by=[winner], ascending=False).copy()
 
         # find the score where a quota is filled
-        split_point = cand_df_sort[cand_df_sort["weights"].cumsum() < quota][winner].min()
+        split_point = cand_df_sort[cand_df_sort["weights"].cumsum() < quota][
+            winner
+        ].min()
 
         # Amount of ballot for voters who voted more than the split point
         spent_above = cand_df[cand_df[winner] > split_point]["weights"].sum()
@@ -115,7 +117,7 @@ def MES(ballots: pd.DataFrame, seats: int):
         if prices.min() < float("inf"):
             winner = prices.idxmin()
         else:  # default to largest remainders
-            winner= ballots.drop(seated, axis=1).mul(weights, axis=0).sum().idxmax()
+            winner = ballots.drop(seated, axis=1).mul(weights, axis=0).sum().idxmax()
 
         weights[ballots[winner] == 1] = (
             weights[ballots[winner] == 1].subtract(prices[winner]).clip(0, 1)
