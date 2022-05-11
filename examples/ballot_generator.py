@@ -6,7 +6,6 @@ def generate_approval_ballots():
     # Compose Ballots
     # candidates = ["Squash", "Potato", "Broccoli", "Blueberry", "Strawberry", "Banana"]
     candidates = ["A", "B", "C", "X", "Y", "Z"]
-    # candidates = ["🥕", "🥔", "🥦", "🫐", "🍓", "🍌"]
 
     ballot1 = {
         candidates[0]: 1,
