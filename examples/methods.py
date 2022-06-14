@@ -122,7 +122,7 @@ def MES(ballots: pd.DataFrame, seats: int):
         weights[ballots[winner] == 1] = (
             weights[ballots[winner] == 1].subtract(prices[winner]).clip(0, 1)
         )
-        seated.append(w)
+        seated.append(winner)
 
     return seated
 
