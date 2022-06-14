@@ -1,9 +1,15 @@
 import pandas as pd
 import numpy as np
+from examples.proportionality_metrics import harmonic_utility, exhaustive_optimal
+
+
+def PAV(ballots, seats):
+    """Proportional Approval Voting"""
+    return exhaustive_optimal(ballots, seats, harmonic_utility)
 
 
 def SPAV(ballots: pd.DataFrame, seats: int):
-    """Sequential Proportional Approvla Voting
+    """Sequential Proportional Approval Voting
     This system converts Approval Voting into a multi-round rule,
     selecting a candidate in each round and then reweighing the
     approvals for the subsequent rounds. The first candidate elected
