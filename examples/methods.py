@@ -5,8 +5,9 @@ from itertools import combinations
 
 
 def PAV(ballots: pd.DataFrame, seats: int):
-    def H(x): return sum(1 / i for i in range(1, int(x) + 1))
-    
+    def H(x):
+        return sum(1 / i for i in range(1, int(x) + 1))
+
     best_score = 0
     best_committee = None
     for wset in combinations(ballots.columns, seats):
