@@ -1,11 +1,21 @@
 import pandas as pd
 import numpy as np
 from examples.proportionality_metrics import harmonic_utility, exhaustive_optimal
+from itertools import combinations
 
 
-def PAV(ballots, seats):
-    """Proportional Approval Voting"""
-    return exhaustive_optimal(ballots, seats, harmonic_utility)
+def PAV(ballots: pd.DataFrame, seats: int):
+    def H(x): return sum(1 / i for i in range(1, int(x) + 1))
+    
+    best_score = 0
+    best_committee = None
+    for wset in combinations(ballots.columns, seats):
+
+        harmonic_score = ballots[list(wset)].sum(axis=1).map(H).sum()
+        if harmonic_score > best_score:
+            best_score, best_committee = harmonic_score, wset
+
+    return list(best_committee)
 
 
 def SPAV(ballots: pd.DataFrame, seats: int):

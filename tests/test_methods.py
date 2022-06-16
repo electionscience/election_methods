@@ -40,5 +40,4 @@ def test_pav():
     ballots = generate_approval_ballots()
 
     elected = PAV(ballots, seats=3)
-    # print(elected)
-    assert elected == ["C", "D", "B"]
+    assert elected == ["B", "C", "D"]
