@@ -35,6 +35,8 @@ theme-darcula = "*"
 PuLP = "*"
 jupyterlab-language-pack-fr-FR = "*"
 jupyterlab-language-pack-zh-CN = "*"
+openpyxl = "*"
+requests-html = "*"
 
 [dev-packages]
 black = "*"
