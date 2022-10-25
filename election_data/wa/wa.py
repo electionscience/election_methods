@@ -2,8 +2,7 @@ from pandas import pd
 
 
 def load_data():
-    df = pd.read_csv("data/raw/wa/wa.csv")
-    return df
+    return pd.read_csv("data/raw/wa/wa.csv")
 
 
 # "County","Race","Candidate","Party","Votes","PercentageOfTotalVotes","JurisdictionName"
