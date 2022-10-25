@@ -1,21 +1,20 @@
-
-
 import pandas as pd
 import os
 
 
 def main():
     # list of files in 'raw' folder
-    raw = os.listdir('./raw')
+    raw = os.listdir("./raw")
     aggregate = pd.DataFrame()
     for file in raw:
         # read in each file
-        df = pd.read_excel(f'./raw/{file}')
+        df = pd.read_excel(f"./raw/{file}")
         # rename columns
         df = rename_columns(df)
         # write to csv
         aggregate = pd.concat([aggregate, df])
     write_to_csv(aggregate)
+
 
 # rename columns
 
@@ -62,21 +61,25 @@ def main():
 
 def rename_columns(df):
     # Add state column
-    df['State'] = 'CA'
+    df["State"] = "CA"
 
-    df = df.rename(columns={
-    'CNTYNAME': 'County',
-    'OFFICE': 'Race',
-    'PLACE': 'JurisdictionName',
-    'CANDIDATE': 'Candidate',
-    'PARTY': 'Party',
-    'VOTES': 'Votes',
-    'PERCENT': 'PercentageOfTotalVotes'
-    })
+    df = df.rename(
+        columns={
+            "CNTYNAME": "County",
+            "OFFICE": "Race",
+            "PLACE": "JurisdictionName",
+            "CANDIDATE": "Candidate",
+            "PARTY": "Party",
+            "VOTES": "Votes",
+            "PERCENT": "PercentageOfTotalVotes",
+        }
+    )
     return df
 
-def write_to_csv(df):
-    df.to_csv('./california.csv', index=False)
 
-if __name__ == '__main__':
+def write_to_csv(df):
+    df.to_csv("./california.csv", index=False)
+
+
+if __name__ == "__main__":
     main()
