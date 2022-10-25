@@ -1,0 +1,56 @@
+[
+  {
+    "Apple": 0,
+    "Blueberry": 1,
+    "Squash": 1,
+    "Strawberry": 1
+  },
+  {
+    "Apple": 1,
+    "Blueberry": 0,
+    "Squash": 0,
+    "Strawberry": 0
+  },
+  {
+    "Apple": 1,
+    "Blueberry": 0,
+    "Squash": 0,
+    "Strawberry": 0
+  },
+  {
+    "Apple": 0,
+    "Blueberry": 1,
+    "Squash": 1,
+    "Strawberry": 0
+  },
+  {
+    "Apple": 1,
+    "Blueberry": 1,
+    "Squash": 0,
+    "Strawberry": 1
+  },
+  {
+    "Apple": 0,
+    "Blueberry": 1,
+    "Squash": 1,
+    "Strawberry": 1
+  },
+  {
+    "Apple": 1,
+    "Blueberry": 1,
+    "Squash": 0,
+    "Strawberry": 1
+  },
+  {
+    "Apple": 1,
+    "Blueberry": 1,
+    "Squash": 0,
+    "Strawberry": 1
+  },
+  {
+    "Apple": 0,
+    "Blueberry": 1,
+    "Squash": 0,
+    "Strawberry": 1
+  }
+]
