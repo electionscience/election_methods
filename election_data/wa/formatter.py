@@ -1,24 +1,32 @@
-from requests_html import HTMLSession
-import re
+from datetime import date
+import pandas as pd
+import os
 
-session = HTMLSession()
 
-# Open https://www.sos.wa.gov/elections/research/election-results-and-voters-pamphlets.aspx
-# Get all the dates from the URL paths
-# Find all URLs with https://results.vote.wa.gov/results/20211102/ and grab the date from the URL
-# Grab f'https://results.vote.wa.gov/results/{date}/export/{date}_AllCounties.csv'
+def main():
+    # list of files in 'raw' folder
+    raw = os.listdir("./raw")
+    aggregate = pd.DataFrame()
+    for file in raw:
+        # read in each file
+        df = pd.read_csv(f"./raw/{file}")
+        # rename columns
+        df["Date"] = file[:4] + "-" + file[4:6] + "-" + file[6:8]
+        df["Year"] = file[:4]
+        df["State"] = "WA"
 
-r = session.get(
-    "https://www.sos.wa.gov/elections/research/election-results-and-voters-pamphlets.aspx"
-)
-# print(r.html.links)
-pattern = re.compile(r"(?!\/results\/)(\d{8})")
-dates = {pattern.search(link)[0] for link in r.html.links if pattern.search(link)}
+        # write to csv
+        aggregate = pd.concat([aggregate, df])
+    write_to_csv(aggregate)
 
-for date in dates:
-    file_url = (
-        f"https://results.vote.wa.gov/results/{date}/export/{date}_AllCounties.csv"
-    )
-    response = session.get(file_url)
-    print(f"Writing {file_url}")
-    open(f"./{date}.csv", "wb").write(response.content)
+
+# rename columns
+# "County","Race","Candidate","Party","Votes","PercentageOfTotalVotes","JurisdictionName"
+
+
+def write_to_csv(df):
+    df.to_csv("./washington.csv", index=False)
+
+
+if __name__ == "__main__":
+    main()
