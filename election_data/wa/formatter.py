@@ -15,13 +15,33 @@ def main():
         df["Year"] = file[:4]
         df["State"] = "WA"
 
+        # Create winner? column
+
         # write to csv
         aggregate = pd.concat([aggregate, df])
     write_to_csv(aggregate)
 
 
 # rename columns
+# From:
 # "County","Race","Candidate","Party","Votes","PercentageOfTotalVotes","JurisdictionName"
+
+# To:
+# - Date
+# - Year
+# - State
+# - PlaceName
+# - PlaceType (City/County/Other)
+# - Office
+# - CandidateName
+# - Votes
+# - TotalVotesinElection
+# - PercentageofVote
+# - Winner?
+# - Available Seats in Election
+# - Calculated Quota (1/Seats+1)
+# - Calculated distance from Quota (Percentage of Vote - Quota)
+# - Can use Initiatives? (Nice to have)
 
 
 def write_to_csv(df):
@@ -30,3 +50,16 @@ def write_to_csv(df):
 
 if __name__ == "__main__":
     main()
+
+# - Date
+# - Year
+# - State
+# - PlaceName
+# - PlaceType (City/County/Other)
+# - Office
+# - CandidateName
+# - Votes
+# - TotalVotesinElection
+# - PercentageofVote
+# - Winner?
+# - Available Seats in Election
