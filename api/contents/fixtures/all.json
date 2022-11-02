@@ -2,32 +2,32 @@
   "content": [
     {
       "content": null,
-      "created": "2022-05-16T05:22:29.999113Z",
+      "created": "2022-11-02T04:09:54.422343Z",
       "format": null,
-      "last_modified": "2022-05-16T05:18:42.218831Z",
-      "mimetype": "application/json",
-      "name": "score_ballots.json",
-      "path": "fixtures/score_ballots.json",
-      "size": 821,
-      "type": "file",
-      "writable": true
-    },
-    {
-      "content": null,
-      "created": "2022-05-16T05:22:29.999113Z",
-      "format": null,
-      "last_modified": "2022-05-16T05:18:42.218831Z",
+      "last_modified": "2022-11-02T04:08:32.356965Z",
       "mimetype": "application/json",
       "name": "approval_ballots.json",
       "path": "fixtures/approval_ballots.json",
       "size": 740,
       "type": "file",
       "writable": true
+    },
+    {
+      "content": null,
+      "created": "2022-11-02T04:09:54.422343Z",
+      "format": null,
+      "last_modified": "2022-11-02T04:08:32.356965Z",
+      "mimetype": "application/json",
+      "name": "score_ballots.json",
+      "path": "fixtures/score_ballots.json",
+      "size": 821,
+      "type": "file",
+      "writable": true
     }
   ],
-  "created": "2022-05-16T05:22:29.999113Z",
+  "created": "2022-11-02T04:09:54.422343Z",
   "format": "json",
-  "last_modified": "2022-05-16T05:22:29.999113Z",
+  "last_modified": "2022-11-02T04:09:54.422343Z",
   "mimetype": null,
   "name": "fixtures",
   "path": "fixtures",
