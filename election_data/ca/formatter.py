@@ -3,6 +3,8 @@ import logging
 import pandas as pd
 import sqlite3 as sql
 import numpy as np
+import sqlalchemy
+
 
 conn = sql.connect("../elections.db")
 
@@ -23,17 +25,17 @@ def main():
         df = rename_columns(df)
         logger.info(df.columns)
         logger.warning(file)
-        logger.info(df[df.index.duplicated()])
+        logger.warning(df[df.index.duplicated()])
         df = df.reindex(sorted(df.columns), axis=1)
         logger.info(df.columns)
         columns.extend(df.columns.tolist())
         df = df.replace("#NULL!", np.nan)
         aggregate = pd.concat([aggregate, df], axis=0, join="outer")
     aggregate = change_types(aggregate)
-    aggregate["CNTYNAME"] = aggregate["CNTYNAME"].str.title()
-    aggregate["PLACE"] = aggregate["PLACE"].str.title()
+    # print(aggregate['VOTES'].compare(aggregate['VOTES_sum']).dropna())
 
     # write to csv
+    aggregate.to_csv("./cleaned/CA_candidates.csv", index=False)
     aggregate.to_sql(
         "candidates",
         conn,
@@ -90,47 +92,134 @@ def main():
 
 
 def rename_columns(df):
+
+    """
+    | old                | new                         | Type | Heading Data Description                                                                                                                                                                                   |
+    | ------------------ | --------------------------- | ---- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | AREA               | district                    | String  | Area within Office - e.g. supervisorial district, school board seat                                                                                                                                        |
+    | BALDESIG           | ballot_designation           | String  | Candidate's ballot designation                                                                                                                                                                             |
+    | CAND#              | number_of_candidates        | Int  | Number of candidates running for office                                                                                                                                                                    |
+    | CHECKRUNOFF        | runoff_candidates           | Int  | Confirmed runoff candidates                                                                                                                                                                                |
+    | CNTYNAME           | county_name                 | String  | County name                                                                                                                                                                                                |
+    | CO                 | county_number               | Int  | Numerical code for county, counties sorted in alphabetical order                                                                                                                                           |
+    | CSD                | community_service_district? | boolean  | Election for a Community Service District or County Service Area—0=No, 1=Yes                                                                                                                               |
+    | DATE               | date                        | String  | Date of election                                                                                                                                                                                           |
+    | ELECTED            | elected_enum                | String  | Single county outcome for candidate - 1=Elected to office; 2=Not elected to office; 3=Runoff                                                                                                               |
+    | FIRST              | candidate_first_name        | String  | Candidate's first name                                                                                                                                                                                     |
+    | INCUMB             | incumbent?                  | boolean  | Incumbency status - Y=Incumbent; N=Not incumbent                                                                                                                                                           |
+    | Indivtotal_votes   | multi_county_votes          | Int  | Multi-county votes for candidate                                                                                                                                                                           |
+    | JUR                | jurisdiction_enum           | Int  | Jurisdiction - 1=County; 2=City; 3=School District                                                                                                                                                         |
+    | LAST               | candidate_last_name         | String  | Candidate's last name                                                                                                                                                                                      |
+    | Multi_CandID       | multi_county_candidate_id   | Int  | Unique ID identifying candidates across counties (for multi-county races)                                                                                                                                  |
+    | Multi_CO           | multi_county_race?          | boolean  | Indicates Multi-County Races - 0 = Single County; 1 = Multi-County                                                                                                                                         |
+    | Multi_RaceID       | multi_county_race_id        | Int  | Unique ID identifying races across counties (for multi-county races)                                                                                                                                       |
+    | Multitotal_votes   | multi_county_total_votes    | Int  | Multi-county total votes all candidates running for office, not including write-ins                                                                                                                        |
+    | Newelected         | multi_county_elected_enum   | String  | Multi-county outcome for candidate - 1=Elected to office; 2=Not elected to office; 3=Runoff                                                                                                                |
+    | Newtotvotes        | multi_county_total_votes    | Int  | Multi-county total votes all candidates running for office, including write-ins                                                                                                                            |
+    | NUM_INC            | incumbent?                  | boolean  | Numeric Incumbency status—1=Yes, 2=No                                                                                                                                                                      |
+    | OFFICE             | office                      | Int  | Original office within political jurisdiction                                                                                                                                                              |
+    | PERCENT            | percent_votes               | Int  | Percent of total votes received by candidate                                                                                                                                                               |
+    | PLACE              | race_location               | Int  | Political jurisdiction - name of county, CSD, city or school district                                                                                                                                      |
+    | RACEID             | race_id                     | Int  | Numeric identifier for each contest                                                                                                                                                                        |
+    | RaceID             | year_race_id                | Int  | Unique ID for each Race assuming single-county (year+race_id ie, 20110123)                                                                                                                                 |
+    | RECODE_OFFICE      | office_enum                 | Int  | Numeric categories for office - 1 = County Supervisor; 2 = City Council; 3 = School Board Member ; 4 = CSD/CSA Director; 5 = Other County Office; 6 = Other City Office; 7 = Other School District Office. |
+    | RECODE_OFFNAME     | office_name                 | Int  | Name for recoded office categories                                                                                                                                                                         |
+    | RecordID           | record_id                   | Int  | Unique ID for each record                                                                                                                                                                                  |
+    | Rindivto           | multi_county_rank           | Int  | Multi-county rank order of candidates for each contest                                                                                                                                                     |
+    | RUNOFF             | runoff?                     | boolean  | Potential runoff candidates                                                                                                                                                                                |
+    | RVOTES             | rank                        | Int  | Rank order of candidates for each contest                                                                                                                                                                  |
+    | SUMVOTES           | votes_sum                   | Int  | Total votes for all candidates running for office, not including write-ins                                                                                                                                 |
+    | TERM               | full_term?                  | boolean  | Term of office - full or short                                                                                                                                                                             |
+    | Totalwritein_votes | multi_county_write_in_votes | Int  | Multi-county total write-in votes                                                                                                                                                                          |
+    | TOTVOTES           | votes_total                 | Int  | Total votes for all candidates running for office, including write-ins                                                                                                                                     |
+    | VOTE#              | pick_x                      | Int  | # Number of seats to be filled in office (# of candidates to vote for)                                                                                                                                     |
+    | VOTES              | votes                       | Int  | Votes for candidate                                                                                                                                                                                        |
+    | WRITEIN            | votes_write_in              | Int  | Total write-in votes for candidates not listed on ballot                                                                                                                                                   |
+    | YEAR               | year                        | Int  | Election Year                                                                                                                                                                                              |
+    """
     # Add state column
-    df["State"] = "CA"
-    # df.columns = df.columns.str.upper()
-    # if 'RACEID' in df: df = df.drop(['RACEID'])
+    df["state"] = "CA"
     df = df.rename(
         columns={
-            "checkrunoff": "CHECKRUNOFF",
-            "CO#": "CO",
-            "Elected": "ELECTED",
-            "elected": "ELECTED",
-            "First": "FIRST",
-            "FIRSTNAME": "FIRST",
-            "indivtotal_votes": "Indivtotal_votes",
-            "multitotal_votes": "Multitotal_votes",
-            "newelected": "Newelected",
-            "newtotvotes": "Newtotvotes",
-            "last": "LAST",
-            "INC": "INCUMB",
-            "LASTNAME": "LAST",
-            "MeasID": "MeasureID",
-            "NUM_INC": "Num_Inc",
-            "RACEID": "OtherRaceID",
-            "RaceID": "RACEID",
-            "Percent": "PERCENT",
-            "runoff": "RUNOFF",
-            "total_writein": "Totalwritein_votes",
-            "Total_writein": "Totalwritein_votes",
-            "VOTE#": "SeatsOpen"
-            # "RECODE_OFFNAME": ""
-            # "VOTES_SUM": "SUMVOTES"
-            # RECODE_OFFNAME
+            "AREA": "district",
+            "BALDESIG": "ballot_designation",
+            "CAND#": "number_of_candidates",
+            "checkrunoff": "runoff_candidates",
+            "CHECKRUNOFF": "runoff_candidates",
+            "CNTYNAME": "county_name",
+            "CO": "county_number",
+            "CO#": "county_number",
+            "CSD": "community_service_district?",
+            "DATE": "date",
+            "ELECTED": "elected_enum",
+            "elected": "elected_enum",
+            "Elected": "elected_enum",
+            "FIRST": "candidate_first_name",
+            "First": "candidate_first_name",
+            "FIRSTNAME": "candidate_first_name",
+            "INC": "incumbent?",
+            "INCUMB": "incumbent?",
+            "indivtotal_votes": "multi_county_votes",
+            "Indivtotal_votes": "multi_county_votes",
+            "JUR": "jurisdiction_enum",
+            "LAST": "candidate_last_name",
+            "last": "candidate_last_name",
+            "LASTNAME": "candidate_last_name",
+            "Multi_CandID": "multi_county_candidate_id",
+            "Multi_CO": "multi_county_race?",
+            "Multi_RaceID": "multi_county_race_id",
+            "Multitotal_votes": "multi_county_total_votes",
+            "multitotal_votes": "multi_county_total_votes",
+            "Newelected": "multi_county_elected_enum",
+            "newelected": "multi_county_elected_enum",
+            "Newtotvotes": "multi_county_total_votes_w_write_in",
+            "newtotvotes": "multi_county_total_votes_w_write_in",
+            "NUM_INC": "incumbent_enum",
+            "Num_Inc": "incumbent_enum",
+            "OFFICE": "office",
+            "PERCENT": "percent_votes",
+            "Percent": "percent_votes",
+            "PLACE": "race_location",
+            "RACEID": "race_id",
+            "RaceID": "year_race_id",
+            "RECODE_OFFICE": "office_enum",
+            "RECODE_OFFNAME": "office_name",
+            "RecordID": "record_id",
+            "Rindivto": "multi_county_rank",
+            "RUNOFF": "runoff?",
+            "runoff": "runoff?",
+            "RVOTES": "rank",
+            "SUMVOTES": "votes_sum",
+            "TERM": "full_term?",
+            "total_writein": "multi_county_write_in_votes",
+            "Total_writein": "multi_county_write_in_votes",
+            "Totalwritein_votes": "multi_county_write_in_votes",
+            "TOTVOTES": "votes_total",
+            "VOTE#": "pick_x",
+            "VOTES_sum": "race_sum_votes",
+            "VOTES": "votes",
+            "WRITEIN": "votes_write_in",
+            "YEAR": "year",
         }
     )
+
     return df
 
 
 def change_types(df):
-    df.Num_Inc = df.Num_Inc.map(dict(Y=1, N=0)).astype("boolean")
-    df.INCUMB = df.INCUMB.map(dict(Y=1, N=0)).astype("boolean")
-    df.INCUMB = df.INCUMB.map(dict(Y=1, N=0)).astype("boolean")
-    df.ELECTED = df.ELECTED.replace(
+    # Replace #NULL! with NaN
+    df["incumbent_enum"] = df["incumbent_enum"].map(dict(Y=1, N=0)).astype("boolean")
+    df["incumbent?"] = df["incumbent?"].map(dict(Y=1, N=0)).astype("boolean")
+    df["community_service_district?"] = df["community_service_district?"].astype(
+        "boolean"
+    )
+    df["full_term?"] = (
+        df["full_term?"].map({"full": True, "short": False}).astype("boolean")
+    )
+    df.jurisdiction_enum = df.jurisdiction_enum.map(
+        {1: "County", 2: "City", 3: "School District"}
+    )
+    df.multi_county_elected_enum = df.multi_county_elected_enum.replace(
         {
             1: "ELECTED",
             2: "NOT ELECTED",
@@ -139,93 +228,76 @@ def change_types(df):
             "No": "NOT ELECTED",
         }
     )
-    # Replace #NULL! with NaN
-    df = df.replace("#NULL!", np.nan)
-    # df['Indivtotal_votes'] = pd.to_int(df['Indivtotal_votes'], errors='coerce')
-    df = df.astype(
+    df.elected_enum = df.elected_enum.replace(
         {
-            "CSD": "boolean",
-            "CHECKRUNOFF": "boolean",
-            "Multi_CO": "boolean",
-            "Indivtotal_votes": "Int32",
-            "Multi_CandID": "Int32",
-            "Multi_RaceID": "Int32",
-            "Multitotal_votes": "Int32",
-            "Newelected": "Int32",
-            "Newtotvotes": "Int32",
-            "Num_Inc": "Int32",
-            "OtherRaceID": "Int32",
-            "RECODE_OFFICE": "Int32",
-            "RUNOFF": "boolean",
-            "RecordID": "Int32",
-            "YEAR": "Int32",
-            "VOTES_sum": "Int32",
-            # "VOTE#": "Int32",
-            "SUMVOTES": "Int32",
-            "RACEID": "Int32",
+            1: "ELECTED",
+            2: "NOT ELECTED",
+            3: "RUNOFF",
+            "Yes": "ELECTED",
+            "No": "NOT ELECTED",
         }
     )
-    df["TOTVOTES"] = np.floor(pd.to_numeric(df["TOTVOTES"], errors="coerce")).astype(
+    df = df.replace("#NULL!", np.nan)
+    df["votes_total"] = np.floor(
+        pd.to_numeric(df["votes_total"], errors="coerce")
+    ).astype("Int64")
+    df["votes_write_in"] = np.floor(
+        pd.to_numeric(df["votes_write_in"], errors="coerce")
+    ).astype("Int64")
+    df["race_id"] = np.floor(pd.to_numeric(df["race_id"], errors="coerce")).astype(
         "Int64"
     )
-    df["WRITEIN"] = np.floor(pd.to_numeric(df["WRITEIN"], errors="coerce")).astype(
-        "Int64"
+    df["multi_county_write_in_votes"] = np.floor(
+        pd.to_numeric(df["multi_county_write_in_votes"], errors="coerce")
+    ).astype("Int64")
+    df = df.astype(
+        {
+            "ballot_designation": "string",
+            "number_of_candidates": "Int64",
+            "runoff_candidates": "Int64",
+            "county_name": "string",
+            "county_number": "Int64",
+            "community_service_district?": "boolean",
+            "date": "string",
+            "elected_enum": "string",
+            "candidate_first_name": "string",
+            "incumbent?": "boolean",
+            "multi_county_votes": "Int64",
+            "jurisdiction_enum": "string",
+            "candidate_last_name": "string",
+            "multi_county_candidate_id": "Int64",
+            "multi_county_race?": "boolean",
+            "multi_county_race_id": "Int64",
+            "multi_county_total_votes": "Int64",
+            "multi_county_elected_enum": "string",
+            "multi_county_total_votes": "Int64",
+            "incumbent?": "boolean",
+            "office": "string",
+            "percent_votes": "float64",
+            "race_location": "string",
+            "race_id": "Int64",
+            "year_race_id": "Int64",
+            "office_enum": "string",
+            "office_name": "string",
+            "record_id": "Int64",
+            "multi_county_rank": "float64",
+            "runoff?": "boolean",
+            "rank": "float64",
+            "votes_sum": "Int64",
+            "full_term?": "boolean",
+            "multi_county_write_in_votes": "Int64",
+            "votes_total": "Int64",
+            "pick_x": "Int64",
+            "votes": "Int64",
+            "votes_write_in": "Int64",
+            "year": "Int64",
+        },
+        errors="raise",
     )
-    df["RACEID"] = np.floor(pd.to_numeric(df["RACEID"], errors="coerce")).astype(
-        "Int64"
-    )
-
     return df
 
 
-def reformat_colums(df):
-    pass
-
-
 # todo: pick between INCUMB and NUM_INC
-"""
-| old                | new                         | Heading Data Description                                                                                                                                                                                   |
-| ------------------ | --------------------------- |
-| AREA               | district                    | Area within Office - e.g. supervisorial district, school board seat                                                                                                                                        |
-| BALDESIG           | ballotdesignation           | Candidate's ballot designation                                                                                                                                                                             |
-| CAND#              | number_of_candidates        | Number of candidates running for office                                                                                                                                                                    |
-| CHECKRUNOFF        | runoff_candidates           | Confirmed runoff candidates                                                                                                                                                                                |
-| CNTYNAME           | county_name                 | County name                                                                                                                                                                                                |
-| CO                 | county_number               | Numerical code for county, counties sorted in alphabetical order                                                                                                                                           |
-| CSD                | community_service_district? | Election for a Community Service District or County Service Area—0=No, 1=Yes                                                                                                                               |
-| DATE               | date                        | Date of election                                                                                                                                                                                           |
-| ELECTED            | elected_enum                | Single county outcome for candidate - 1=Elected to office; 2=Not elected to office; 3=Runoff                                                                                                               |
-| FIRST              | candidate_first_name        | Candidate's first name                                                                                                                                                                                     |
-| INCUMB             | incumbent?                  | Incumbency status - Y=Incumbent; N=Not incumbent                                                                                                                                                           |
-| Indivtotal_votes   | multi_county_votes          | Multi-county votes for candidate                                                                                                                                                                           |
-| JUR                | jurisdiction_enum           | Jurisdiction - 1=County; 2=City; 3=School District                                                                                                                                                         |
-| LAST               | candidate_last_name         | Candidate's last name                                                                                                                                                                                      |
-| Multi_CandID       | multi_county_candidate_id   | Unique ID identifying candidates across counties (for multi-county races)                                                                                                                                  |
-| Multi_CO           | multi_county_race?          | Indicates Multi-County Races - 0 = Single County; 1 = Multi-County                                                                                                                                         |
-| Multi_RaceID       | multi_county_race_id        | Unique ID identifying races across counties (for multi-county races)                                                                                                                                       |
-| Multitotal_votes   | multi_county_total_votes    | Multi-county total votes all candidates running for office, not including write-ins                                                                                                                        |
-| Newelected         | multi_county_elected_enum   | Multi-county outcome for candidate - 1=Elected to office; 2=Not elected to office; 3=Runoff                                                                                                                |
-| Newtotvotes        | multi_county_total_votes    | Multi-county total votes all candidates running for office, including write-ins                                                                                                                            |
-| NUM_INC            | incumbent?                  | Numeric Incumbency status—1=Yes, 2=No                                                                                                                                                                      |
-| OFFICE             | office                      | Original office within political jurisdiction                                                                                                                                                              |
-| PERCENT            | percent_votes               | Percent of total votes received by candidate                                                                                                                                                               |
-| PLACE              | race_location               | Political jurisdiction - name of county, CSD, city or school district                                                                                                                                      |
-| RACEID             | race_id                     | Numeric identifier for each contest                                                                                                                                                                        |
-| RaceID             | year_race_id                | Unique ID for each Race assuming single-county (year+race_id ie, 20110123)                                                                                                                                 |
-| RECODE_OFFICE      | office_enum                 | Numeric categories for office - 1 = County Supervisor; 2 = City Council; 3 = School Board Member ; 4 = CSD/CSA Director; 5 = Other County Office; 6 = Other City Office; 7 = Other School District Office. |
-| RECODE_OFFNAME     | office_name                 | Name for recoded office categories                                                                                                                                                                         |
-| RecordID           | record_id                   | Unique ID for each record                                                                                                                                                                                  |
-| Rindivto           | multi_county_rank           | Multi-county rank order of candidates for each contest                                                                                                                                                     |
-| RUNOFF             | runoff?                     | Potential runoff candidates                                                                                                                                                                                |
-| RVOTES             | rank                        | Rank order of candidates for each contest                                                                                                                                                                  |
-| SUMVOTES           | votes_sum                   | Total votes for all candidates running for office, not including write-ins                                                                                                                                 |
-| TERM               | full_term?                  | Term of office - full or short                                                                                                                                                                             |
-| Totalwritein_votes | multi_county_write_in_votes | Multi-county total write-in votes                                                                                                                                                                          |
-| TOTVOTES           | votes_total                 | Total votes for all candidates running for office, including write-ins                                                                                                                                     |
-| VOTE#              | pick_x                      | # Number of seats to be filled in office (# of candidates to vote for)                                                                                                                                     |
-| VOTES              | votes                       | Votes for candidate                                                                                                                                                                                        |
-| WRITEIN            | votes_write_in              | Total write-in votes for candidates not listed on ballot                                                                                                                                                   |
-| YEAR               | year                        | Election Year                                                                                                                                                                                              |
-"""
+
 if __name__ == "__main__":
     main()
