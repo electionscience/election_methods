@@ -38,6 +38,7 @@ jupyterlab-language-pack-zh-CN = "*"
 openpyxl = "*"
 requests-html = "*"
 xlrd = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 black = "*"

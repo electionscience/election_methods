@@ -2,6 +2,14 @@
 
 Consolidated State, Local and Federal election data across the USA
 
+## Election Data
+
+This is the home of the Center for Election Science's universal election dataset.
+
+Election data is stored in .csv format and compiled into a SQLite DB for hosting on Datasette.
+
+To update the Datasette instance on data.electionscience.org, run `datasette publish cloudrun ./elections.db --service=elections --install=datasette-vega` with the appropriate permissions. Contact @fsargent for more information.
+
 ## Goals
 
 - A unified dataset for all elections across the USA
@@ -11,6 +19,8 @@ Consolidated State, Local and Federal election data across the USA
 
 - Python
 - Pandas
+- Datasette
+- SQLite
 
 ## Scraping
 
@@ -37,12 +47,6 @@ What does our standardized format look like?
 - Calculated Quota (1/Seats+1)
 - Calculated distance from Quota (Percentage of Vote - Quota)
 - Can use Initiatives? (Nice to have)
-
-## Display
-
-- Tableau Public?
-- Organize into 1 mega CSV?
-- Host data files on CKAN?
 
 ## Dataset Sources
 
@@ -134,14 +138,14 @@ What does our standardized format look like?
 
 ### Texas
 
-<https://data.capitol.texas.gov/topic/elections>
-<https://data.capitol.texas.gov/dataset/vtds>
-<https://data.capitol.texas.gov/dataset/comprehensive-election-datasets-compressed-format>
+[https://data.capitol.texas.gov/topic/elections](https://data.capitol.texas.gov/topic/elections)
+[https://data.capitol.texas.gov/dataset/vtds](https://data.capitol.texas.gov/dataset/vtds)
+[https://data.capitol.texas.gov/dataset/comprehensive-election-datasets-compressed-format](https://data.capitol.texas.gov/dataset/comprehensive-election-datasets-compressed-format)
 Nevermind this only has State Wide elections.
 
 ### Utah
 
-<https://voteinfo.utah.gov/historical-election-results/>
+[https://voteinfo.utah.gov/historical-election-results/](https://voteinfo.utah.gov/historical-election-results/)
 
 ### Vermont
 
@@ -151,9 +155,9 @@ Nevermind this only has State Wide elections.
 
 Find the year, go to Export Results, select All Counties:
 
-<https://results.vote.wa.gov/results/20211102/export.html>
+[https://results.vote.wa.gov/results/20211102/export.html](https://results.vote.wa.gov/results/20211102/export.html)
 
-<https://results.vote.wa.gov/results/20211102/export/20211102_AllCounties.csv>
+[https://results.vote.wa.gov/results/20211102/export/20211102_AllCounties.csv](https://results.vote.wa.gov/results/20211102/export/20211102_AllCounties.csv)
 
 ### West Virginia
 

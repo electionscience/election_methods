@@ -1,10 +1,18 @@
-# Examples
+# Election Methods
 
 Examples of Voting Methods and Tabulation, in both python and notebook format.
 
-**New!** [Live demo of the repository](https://electionscience.github.io/examples/lab/index.html)
+**New!** [Live Jupyter Editor of the repository](https://electionscience.github.io/examples/lab/index.html)
 
-## Methods
+## Election Data
+
+This is the home of the Center for Election Science's universal election dataset. 
+
+Election data is stored in .csv format and compiled into a SQLite DB for hosting on Datasette. 
+
+To update the Datasette instance on data.electionscience.org, run `datasette publish cloudrun ./elections.db --service=elections --install=datasette-vega` with the appropriate permissions. Contact @fsargent for more information.
+
+## Voting Methods
 
 When single winner methods are equivalent to a multi winner method with one seat, the single winner method is not included for simplicity. For example, Approval Voting and Sequential Proportional Approval Voting yield the same first winner with the same methodology, so Approval Voting is not included as a separate example.
 
