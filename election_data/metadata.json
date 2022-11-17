@@ -1,0 +1,59 @@
+{
+  "title": "Election Data",
+  "description": "A datasette instance for compiling election data from across the United States. Hosted on https://data.electionscience.org, code: https://github.com/electionscience/election_methods",
+  "license": "ODbL",
+  "license_url": "https://opendatacommons.org/licenses/odbl/",
+  "databases": {
+    "elections": {
+      "source": "California Elections Data Archive (CEDA); California State University, Sacramento. Institute for Social Research;",
+      "source_url": "https://scholars.csus.edu/esploro/outputs/99257830890201671",
+      "tables": {
+        "candidates": {
+          "columns": {
+            "ballot_designation": "Candidate's ballot designation",
+            "candidate_first_name": "Candidate's first name",
+            "candidate_last_name": "Candidate's last name",
+            "community_service_district?": "Election for a Community Service District or County Service Area—0=No, 1=Yes",
+            "county_name": "County name",
+            "county_number": "Numerical code for county, counties sorted in alphabetical order",
+            "date": "Date of election",
+            "district": "Area within Office - e.g. supervisorial district 1, school board seat 2",
+            "elected_enum": "Single county outcome for candidate",
+            "full_term?": "Term of office ",
+            "incumbent_enum": "Numeric Incumbency status—1=Yes, 2=No",
+            "incumbent?": "Incumbency status - Y=Incumbent; N=Not incumbent",
+            "jurisdiction_enum": "Jurisdiction - 1=County; 2=City; 3=School District ",
+            "multi_county_candidate_id": "Unique ID identifying candidates across counties (for multi-county races) ",
+            "multi_county_elected_enum": "Multi-county outcome for candidate",
+            "multi_county_race_id": "Unique ID identifying races across counties (for multi-county races) ",
+            "multi_county_race?": "Indicates Multi-County Races - 0 = Single County; 1 = Multi-County ",
+            "multi_county_rank": "Multi-county rank order of candidates for each contest ",
+            "multi_county_total_votes_w_write_in": "Multi-county total votes all candidates running for office, including write-ins",
+            "multi_county_total_votes": "Multi-county total votes all candidates running for office, not including write-ins",
+            "multi_county_votes": "Multi-county votes for candidate",
+            "multi_county_write_in_votes": "Multi-county total write-in votes ",
+            "number_of_candidates": "Number of candidates running for office",
+            "office_enum": "Numeric categories for office - 1 = County Supervisor; 2 = City Council; 3 = School Board Member ; 4 = CSD/CSA Director; 5 = Other County Office; 6 = Other City Office; 7 = Other School District Office.",
+            "office_name": "Name for recoded office categories",
+            "office": "Original office within political jurisdiction ",
+            "percent_votes": "Percent of total votes received by candidate",
+            "pick_x": "Number of seats to be filled in office (# of candidates to vote for)",
+            "race_id": "Numeric identifier for each contest",
+            "race_location": "Political jurisdiction - name of county, CSD, city or school district",
+            "rank": "Rank order of candidates for each contest",
+            "record_id": "Unique ID for each record",
+            "runoff_candidates": "Confirmed runoff candidates",
+            "runoff?": "Potential runoff candidates",
+            "votes_sum": "Total votes for all candidates running for office, not including write-ins",
+            "votes_total": "Total votes for all candidates running for office, including write-ins",
+            "votes_write_in": "Total write-in votes for candidates not listed on ballot",
+            "votes": "Votes for the candidate",
+            "year_race_id": "Unique ID for each Race assuming single-county (year+race_id ie, 20110123)",
+            "year": "Election Year"
+          },
+          "description_html": "California Election Data is sourced from California Elections Data Archive (CEDA); California State University, Sacramento. Institute for Social Research;",
+        }
+      }
+    }
+  }
+}

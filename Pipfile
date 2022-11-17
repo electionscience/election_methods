@@ -35,9 +35,16 @@ theme-darcula = "*"
 PuLP = "*"
 jupyterlab-language-pack-fr-FR = "*"
 jupyterlab-language-pack-zh-CN = "*"
+openpyxl = "*"
+requests-html = "*"
+xlrd = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 black = "*"
 
 [requires]
 python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true

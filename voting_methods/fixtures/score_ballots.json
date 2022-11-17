@@ -1,0 +1,49 @@
+[{
+        "Blueberry": 5,
+        "Tomato": 0,
+        "Squash": 3,
+        "Strawberry": 5
+    },
+    {
+        "Blueberry": 5,
+        "Tomato": 0,
+        "Squash": 0,
+        "Strawberry": 4
+    },
+    {
+        "Blueberry": 0,
+        "Tomato": 5,
+        "Squash": 0,
+        "Strawberry": 1
+    },
+    {
+        "Blueberry": 1,
+        "Tomato": 2,
+        "Squash": 4,
+        "Strawberry": 3
+    },
+    {
+        "Blueberry": 1,
+        "Tomato": 0,
+        "Squash": 2,
+        "Strawberry": 0
+    },
+    {
+        "Blueberry": 1,
+        "Tomato": 3,
+        "Squash": 0,
+        "Strawberry": 1
+    },
+    {
+        "Blueberry": 0,
+        "Tomato": 0,
+        "Squash": 5,
+        "Strawberry": 0
+    },
+    {
+        "Blueberry": 5,
+        "Tomato": 0,
+        "Squash": 0,
+        "Strawberry": 5
+    }
+]
