@@ -41,3 +41,4 @@ Some recommended reading for those wanting to contribute to the repo:
 - [VotingVisualizer](https://www.chocolatepi.net/voteapp/)
 - [Guide to a Better Ballot](https://ncase.me/ballot/)
 - [Smart Voting Simulator](https://www.howtofixtheelection.com/ballot/)
+- [A Python library of approval-based committee (ABC) rules](https://github.com/martinlackner/abcvoting)
