@@ -6,7 +6,7 @@ import numpy as np
 import sqlalchemy
 
 
-conn = sql.connect("../elections.db")
+conn = sql.connect("election_data/elections.db")
 
 
 # create logger
@@ -15,27 +15,26 @@ logger = logging.getLogger("ca_formatter")
 
 def main():
     # list of files in 'raw' folder
-    raw = os.listdir("./raw/Candidates")
+    raw = os.listdir("election_data/ca/raw/Candidates")
     aggregate = pd.DataFrame()
     columns = []
     for file in raw:
         # read in each file
-        df = pd.read_csv(f"./raw/Candidates/{file}")
+        df = pd.read_csv(f"election_data/ca/raw/Candidates/{file}")
         # rename columns
         df = rename_columns(df)
         logger.info(df.columns)
         logger.warning(file)
-        logger.warning(df[df.index.duplicated()])
-        df = df.reindex(sorted(df.columns), axis=1)
+        # df = df.reindex(sorted(df.columns), axis=1)
         logger.info(df.columns)
         columns.extend(df.columns.tolist())
         df = df.replace("#NULL!", np.nan)
         aggregate = pd.concat([aggregate, df], axis=0, join="outer")
     aggregate = change_types(aggregate)
-    # print(aggregate['VOTES'].compare(aggregate['VOTES_sum']).dropna())
+    aggregate = define_rcv_races(aggregate)
 
     # write to csv
-    aggregate.to_csv("./cleaned/CA_candidates.csv", index=False)
+    aggregate.to_csv("election_data/ca/cleaned/CA_candidates.csv", index=False)
     aggregate.to_sql(
         "candidates",
         conn,
@@ -44,51 +43,33 @@ def main():
     )
     logger.info(aggregate.head)
 
+def define_rcv_races(df):
+    # San Francisco
+    # The Mayor, Sheriff, District Attorney, City Attorney, Treasurer, Assessor-Recorder, Public Defender, and members of the Board of Supervisors shall be elected using a ranked-choice, or "instant runoff," ballot. 
+    # https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_charter/0-0-0-1181
+    # http://archive.fairvote.org/sfrcv/sfeval.html
+    sf_rcv_offices = ['Mayor', 'Sheriff', 'District Attorney', 'City Attorney','City Treasurer', 'Treasurer', 'Assessor-Recorder', 'Public Defender']
+    sf_rcv_candidates = df[(df['race_location'] == "San Francisco")  & (df['year'] > 2004) & (df['office'].isin(sf_rcv_offices))]
+    df.loc[df['record_id'].isin(sf_rcv_candidates['record_id']), 'isRCV?'] = True
+    print(sf_rcv_candidates)
+    # Oakland
+    # A City of Oakland Instant Runoff Voting, Measure O ballot proposition was on the November 7, 2006 ballot in the City of Oakland in Alameda County, where it was approved.
+    # https://library.municode.com/ca/oakland/codes/code_of_ordinances?nodeId=THCHOA_ARTXIEL
+    # First RCV elections I can find are https://www.acvote.org/election-information/archived-elections 
+    eb_locations = ['Berkeley','Oakland','San Leandro']
+    eb_rcv_candidates = df[(df['race_location'].isin(eb_locations))  & (df['year'] > 2010) & (df['office'] !='Rent Control Board')]
+    print(eb_rcv_candidates)
+    df.loc[df['record_id'].isin(eb_rcv_candidates['record_id']), 'isRCV?'] = True
 
-### All County, City and School District Candidate Data (Candidates__.xls worksheet)
 
-# | Column             | Heading Data Description                                                                                                                                                                                    |
-# | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-# | AREA               | Area within Office - e.g. supervisorial district, school board seat                                                                                                                                         |
-# | BALDESIG           | Candidate's ballot designation                                                                                                                                                                              |
-# | CAND#              | Number of candidates running for office                                                                                                                                                                   |
-# | CHECKRUNOFF        | Confirmed runoff candidates                                                                                                                                                                                 |
-# | CNTYNAME           | County name                                                                                                                                                                                                 |
-# | CO                 | Numerical code for county, counties sorted in alphabetical order                                                                                                                                            |
-# | CSD                | Election for a Community Service District or County Service Area—0=No, 1=Yes                                                                                                                                |
-# | DATE               | Date of election                                                                                                                                                                                            |
-# | ELECTED            | Single county outcome for candidate - 1=Elected to office; 2=Not elected to office; 3=Runoff                                                                                                                |
-# | FIRST              | Candidate's first name                                                                                                                                                                                      |
-# | INCUMB             | Incumbency status - Y=Incumbent; N=Not incumbent                                                                                                                                                            |
-# | Indivtotal_votes   | Multi-county votes for candidate                                                                                                                                                                            |
-# | JUR                | Jurisdiction - 1=County; 2=City; 3=School District                                                                                                                                                          |
-# | LAST               | Candidate's last name                                                                                                                                                                                       |
-# | Multi_CandID       | Unique ID identifying candidates across counties (for multi-county races)                                                                                                                                   |
-# | Multi_CO           | Indicates Multi-County Races - 0 = Single County; 1 = Multi-County                                                                                                                                          |
-# | Multi_RaceID       | Unique ID identifying races across counties (for multi-county races)                                                                                                                                        |
-# | Multitotal_votes   | Multi-county total votes all candidates running for office, not including write-ins                                                                                                                         |
-# | Newelected         | Multi-county outcome for candidate - 1=Elected to office; 2=Not elected to office; 3=Runoff                                                                                                                 |
-# | Newtotvotes        | Multi-county total votes all candidates running for office, including write-ins                                                                                                                             |
-# | NUM_INC            | Numeric Incumbency status—1=Yes, 2=No                                                                                                                                                                       |
-# | OFFICE             | Original office within political jurisdiction                                                                                                                                                               |
-# | PERCENT            | Percent of total votes received by candidate                                                                                                                                                                |
-# | PLACE              | Political jurisdiction - name of county, CSD, city or school district                                                                                                                                       |
-# | RACEID             | Numeric identifier for each contest                                                                                                                                                                         |
-# | RaceID             | Unique ID for each Race assuming single-county                                                                                                                                                              |
-# | RECODE_OFFICE      | Numeric categories for office - 1 = County Supervisor; 2 = City Council; 3 = School Board Member ; 4 = CSD/CSA Director; 5 = Other County Office; 6 = Other City Office; 7 = Other School  District Office. |
-# | RECODE_OFFNAME     | Name for recoded office categories                                                                                                                                                                          |
-# | RecordID           | Unique ID for each record                                                                                                                                                                                   |
-# | Rindivto           | Multi-county rank order of candidates for each contest                                                                                                                                                      |
-# | RUNOFF             | Potential runoff candidates                                                                                                                                                                                 |
-# | RVOTES             | Rank order of candidates for each contest                                                                                                                                                                   |
-# | SUMVOTES           | Total votes for all candidates running for office, not including write-ins                                                                                                                                  |
-# | TERM               | Term of office - full or short                                                                                                                                                                              |
-# | Totalwritein_votes | Multi-county total write-in votes                                                                                                                                                                           |
-# | TOTVOTES           | Total votes for all candidates running for office, including write-ins                                                                                                                                      |
-# | VOTE#               | # Number of seats to be filled in office (# of candidates to vote for)                                                                                                                                      |
-# | VOTES              | Votes for candidate                                                                                                                                                                                         |
-# | WRITEIN     []       | Total write-in votes for candidates not listed on ballot                                                                                                                                                    |
-# | YEAR               | Election Year
+    albany_rcv_candidates = df[(df['race_location'] == 'Albany')  & (df['year'] > 2021) ]
+    df.loc[df['record_id'].isin(albany_rcv_candidates['record_id']), 'isRCV?'] = True
+    print(albany_rcv_candidates)
+    df['isRCV?'] = df['isRCV?'].astype('boolean')
+    df['isRCV?'] = df['isRCV?'].fillna(False)
+    print(df)
+    print(df['isRCV?'].value_counts())
+    return df
 
 
 def rename_columns(df):
@@ -97,7 +78,7 @@ def rename_columns(df):
     | old                | new                         | Type | Heading Data Description                                                                                                                                                                                   |
     | ------------------ | --------------------------- | ---- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
     | AREA               | district                    | String  | Area within Office - e.g. supervisorial district, school board seat                                                                                                                                        |
-    | BALDESIG           | ballot_designation           | String  | Candidate's ballot designation                                                                                                                                                                             |
+    | BALDESIG           | ballot_designation          | String  | Candidate's ballot designation                                                                                                                                                                             |
     | CAND#              | number_of_candidates        | Int  | Number of candidates running for office                                                                                                                                                                    |
     | CHECKRUNOFF        | runoff_candidates           | Int  | Confirmed runoff candidates                                                                                                                                                                                |
     | CNTYNAME           | county_name                 | String  | County name                                                                                                                                                                                                |
@@ -208,14 +189,28 @@ def rename_columns(df):
 
 def change_types(df):
     # Replace #NULL! with NaN
+    df = df.replace("#NULL!", np.nan)
+
+    # Fix Incumbent
     df["incumbent_enum"] = df["incumbent_enum"].map(dict(Y=1, N=0)).astype("boolean")
     df["incumbent?"] = df["incumbent?"].map(dict(Y=1, N=0)).astype("boolean")
+    
+    # Community Service District to boolean
     df["community_service_district?"] = df["community_service_district?"].astype(
         "boolean"
     )
+
+    # Full term to boolean
     df["full_term?"] = (
         df["full_term?"].map({"full": True, "short": False}).astype("boolean")
     )
+    # Office Enum to Title Case
+    df["office_name"] = df["office_name"].str.title()
+    df["office"] = df["office"].str.title()
+    df['county_name'] = df['county_name'].str.title()
+    df['race_location'] = df['race_location'].str.title()
+
+    # Jurisdiction to named enum
     df.jurisdiction_enum = df.jurisdiction_enum.map(
         {1: "County", 2: "City", 3: "School District"}
     )
@@ -237,18 +232,30 @@ def change_types(df):
             "No": "NOT ELECTED",
         }
     )
-    df = df.replace("#NULL!", np.nan)
+    
+    df["votes"] = np.floor(
+        pd.to_numeric(df["votes"].replace(',','', regex=True), errors="coerce")
+    ).astype("Int64")
     df["votes_total"] = np.floor(
-        pd.to_numeric(df["votes_total"], errors="coerce")
+        pd.to_numeric(df["votes_total"].replace(',','', regex=True), errors="coerce")
     ).astype("Int64")
     df["votes_write_in"] = np.floor(
-        pd.to_numeric(df["votes_write_in"], errors="coerce")
+        pd.to_numeric(df["votes_write_in"].replace(',','', regex=True), errors="coerce")
     ).astype("Int64")
-    df["race_id"] = np.floor(pd.to_numeric(df["race_id"], errors="coerce")).astype(
-        "Int64"
-    )
+    df["votes_sum"] = np.floor(
+        pd.to_numeric(df["votes_sum"].replace(',','', regex=True), errors="coerce")
+    ).astype("Int64")
+    df["multi_county_votes"] = np.floor(
+        pd.to_numeric(df["multi_county_votes"], errors="coerce")
+    ).astype("Int64")
+    df["multi_county_total_votes"] = np.floor(
+        pd.to_numeric(df["multi_county_total_votes"].replace(',','', regex=True), errors="coerce")
+    ).astype("Int64")
     df["multi_county_write_in_votes"] = np.floor(
-        pd.to_numeric(df["multi_county_write_in_votes"], errors="coerce")
+        pd.to_numeric(df["multi_county_write_in_votes"].replace(',','', regex=True), errors="coerce")
+    ).astype("Int64")
+    df["multi_county_total_votes_w_write_in"] = np.floor(
+        pd.to_numeric(df["multi_county_total_votes_w_write_in"].replace(',','', regex=True), errors="coerce")
     ).astype("Int64")
     df = df.astype(
         {
