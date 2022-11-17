@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab/geojson-extension",
-  "version": "3.2.0",
+  "version": "3.3.1",
   "description": "GeoJSON renderer for JupyterLab",
   "keywords": [
     "jupyter",
@@ -28,8 +28,8 @@
   "files": [
     "lib/*.d.ts",
     "lib/*.js",
-    "style/*.*",
-    "style/index.js"
+    "style/**/*",
+    "src/*.json"
   ],
   "scripts": {
     "build": "jlpm run build:lib && jlpm run build:labextension:dev",
@@ -69,7 +69,7 @@
     "mimeExtension": true,
     "outputDir": "jupyterlab-geojson/labextension",
     "_build": {
-      "load": "static/remoteEntry.b75c764d727b50009261.js",
+      "load": "static/remoteEntry.f6be43672b078c208aab.js",
       "mimeExtension": "./mimeExtension",
       "style": "./style"
     }
